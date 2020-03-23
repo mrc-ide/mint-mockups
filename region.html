@@ -1,0 +1,587 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>MINT - add region</title>
+    <style>
+
+        html {
+            overflow-y: scroll;
+        }
+
+        .step-connector {
+            max-width: 100px
+        }
+
+        .step.active .btn {
+            box-shadow: 0 0 0 .3rem rgba(170, 240, 174, .8) !important;
+            border: 1px solid #aaf0ae;
+        }
+
+        .step button {
+            margin: 0 auto;
+            display: block;
+            height: 40px;
+            width: 40px;
+        }
+
+        .stepper {
+            display: flex;
+            align-items: center;
+        }
+
+        a.nav-link.active {
+            color: #495057 !important;
+        }
+
+        .col-form-label {
+            text-align: right;
+        }
+
+        #v-pills-tab a.active {
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+
+        #v-pills-tab a {
+            border: 1px solid transparent;
+        }
+
+        .navbar {
+            padding-left: 0;
+            padding-right: 0;
+            height: 3rem;
+        }
+
+        .navbar-primary {
+            background: #ced4da;
+        }
+
+        .navbar-secondary {
+            background: rgba(170, 240, 174, .2);
+            color: #343a40;
+        }
+
+        .navbar-header {
+            height: 3rem;
+            padding: 0.75rem;
+            margin-top: -0.5rem;
+            margin-bottom: -0.5rem;
+            margin-left: -1rem;
+        }
+
+        .full-height {
+            height: 3rem;
+            padding: 0.75rem;
+            margin-top: -0.5rem;
+            margin-bottom: -0.5rem;
+        }
+
+        .dropdown-item:active {
+            background-color: #f8f9fa !important;
+        }
+    </style>
+</head>
+<body>
+<div class="navbar navbar-primary navbar-default">
+    <div class="container-fluid">
+        <div class="bg-secondary text-light font-weight-bold navbar-header">MINT
+        </div>
+        <div class="dropdown px-2">
+            <a href="#" class="dropdown-toggle text-dark" data-toggle="dropdown">Logged in as test.user@example.com</a>
+            <div class="dropdown-menu">
+                <div class="dropdown-item">
+                    <a href="#" class="text-success">Edit account details</a>
+                </div>
+                <div class="dropdown-item">
+                    <a href="#" class="text-success">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="navbar navbar-secondary">
+    <div class="container-fluid">
+        <div class="navbar-header" style="display: flex; margin-left:-1rem; background:rgba(170, 240, 174, .5)">
+            <span>Zimbabwe:</span>
+            <div class="dropdown px-2">
+                <a href="#" class="dropdown-toggle text-dark" data-toggle="dropdown">Central</a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-item">
+                        <a href="#" class="text-success">North</a>
+                    </div>
+                    <div class="dropdown-item">
+                        <a href="#" class="text-success">+ Add region</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="px-2 full-height text-dark">Download
+            <svg height="20" class="octicon octicon-cloud-download"
+                 viewBox="0 0 16 16" version="1.1" width="20"
+                 aria-hidden="true">
+                <path fill-rule="evenodd"
+                      fill="currentColor"
+                      d="M9 12h2l-3 3-3-3h2V7h2v5zm3-8c0-.44-.91-3-4.5-3C5.08 1 3 2.92 3 5 1.02 5 0 6.52 0 8c0 1.53 1 3 3 3h3V9.7H3C1.38 9.7 1.3 8.28 1.3 8c0-.17.05-1.7 1.7-1.7h1.3V5c0-1.39 1.56-2.7 3.2-2.7 2.55 0 3.13 1.55 3.2 1.8v1.2H12c.81 0 2.7.22 2.7 2.2 0 2.09-2.25 2.2-2.7 2.2h-2V11h2c2.08 0 4-1.16 4-3.5C16 5.06 14.08 4 12 4z"></path>
+            </svg>
+        </a>
+        <a href="#" class="pl-2 full-height text-dark" style="flex:auto">Share
+            <svg height="20" class="octicon octicon-person" style="margin-top:-2px" viewBox="0 0 12 16" version="1.1"
+                 width="20"
+                 aria-hidden="true">
+                <path fill-rule="evenodd"
+                      fill="currentColor"
+                      d="M12 14.002a.998.998 0 01-.998.998H1.001A1 1 0 010 13.999V13c0-2.633 4-4 4-4s.229-.409 0-1c-.841-.62-.944-1.59-1-4 .173-2.413 1.867-3 3-3s2.827.586 3 3c-.056 2.41-.159 3.38-1 4-.229.59 0 1 0 1s4 1.367 4 4v1.002z"></path>
+            </svg>
+        </a>
+    </div>
+</div>
+<div class="container-fluid mt-5">
+    <div class="stepper mb-5">
+        <div class="step active text-right">
+            <button class="d-inline btn rounded-circle border" id="setup-btn" data-target="#setup">
+                1
+            </button>
+            <span class="text-center pl-3">
+                Setup baseline
+            </span>
+        </div>
+        <div class="col step-connector">
+            <hr/>
+        </div>
+        <div class="step">
+            <button class="d-inline btn rounded-circle border" id="explore-btn" data-target="#explore">
+                2
+            </button>
+            <span class="text-center pl-3">
+                Explore interventions
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="setup" role="tabpanel" aria-labelledby="setup-tab">
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5>Site Inputs</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form>
+                                        <div class="form-group row">
+                                            <label class="col-7 col-form-label">
+                                                <span class="float-right">Population</span>
+                                            </label>
+                                            <div class="col">
+                                                <input class="form-control" type="number"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-7 col-form-label">
+                                                <span class="float-right">Seasonality of transmission</span>
+                                            </label>
+                                            <div class="col">
+                                                <select class="form-control">
+                                                    <option>Seasonal</option>
+                                                    <option>Perennial</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-7 col-form-label">
+                                                <span class="float-right">Current prevalence</span>
+                                            </label>
+                                            <div class="col">
+                                                <select class="form-control">
+                                                    <option>Low</option>
+                                                    <option>High</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5>Mosquitos</h5>
+                                </div>
+                                <div class="card-body"></div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card">
+                                <div class="card-header bg-light">
+                                    <h5>Past Vector Control</h5>
+                                </div>
+                                <div class="card-body"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="explore" role="tabpanel" aria-labelledby="explore-tab">
+                    <div class="row">
+                        <div class="col-4">
+                            <ul class="list-group">
+                                <li class="list-group-item p-0">
+                                    <a class="text-secondary bg-light list-group-item border-left-0 border-right-0 border-top-0"
+                                       href="#price-settings" data-toggle="collapse">
+                                        Procurement and distribution
+                                        <i class="fa fa-caret-up float-right"></i>
+                                    </a>
+                                    <div class="container pt-2 collapse show" id="price-settings">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-7">Do you do mass distribution
+                                                campaigns?</label>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="exampleRadios"
+                                                       id="exampleRadios1" value="option1" checked>
+                                                <label class="form-check-label" for="exampleRadios1">
+                                                    Yes
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="exampleRadios"
+                                                       id="exampleRadios2" value="option2">
+                                                <label class="form-check-label" for="exampleRadios2">
+                                                    No
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-7">When planning procurement, what number
+                                                of people per net is used?</label>
+                                            <div class="col pt-2">
+                                                <input type="number" class="form-control form-control-sm"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-7">
+                                                What percentage is your procurement buffer, if used?
+                                            </label>
+                                            <div class="col pt-2">
+                                                <input type="number" class="form-control form-control-sm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item p-0">
+                                    <a class="text-secondary bg-light list-group-item border-left-0 border-right-0 border-top-0"
+                                       href="#price-2" data-toggle="collapse">
+                                        Price of interventions
+                                        <i class="fa fa-caret-up float-right"></i>
+                                    </a>
+                                    <div class="container pt-2 collapse show" id="price-2">
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-7">When planning procurement, what number
+                                                of people per net is used?</label>
+                                            <div class="col pt-2">
+                                                <input type="number" class="form-control form-control-sm"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-form-label col-7">
+                                                What percentage is your procurement buffer, if used?
+                                            </label>
+                                            <div class="col pt-2">
+                                                <input type="number" class="form-control form-control-sm"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-8">
+                            <div class="pl-5">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item">
+                                        <a class="text-success nav-link active" id="nav-home-tab" data-toggle="tab"
+                                           href="#nav-home">Impact</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="text-success nav-link" id="nav-profile-tab" data-toggle="tab"
+                                           href="#nav-profile">Cost effectiveness</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="text-success nav-link" id="nav-document-tab" data-toggle="tab"
+                                           href="#nav-profile">Documentation</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+                                         aria-labelledby="nav-home-tab">
+                                        <div class="row">
+
+                                            <div class="nav flex-column" style="width:0" id="v-pills-tab" role="tablist"
+                                                 aria-orientation="vertical">
+                                                <a class="nav-link active text-success" id="v-pills-home-tab"
+                                                   data-toggle="pill"
+                                                   href="#v-pills-home" role="tab" aria-controls="v-pills-home"
+                                                   aria-selected="true" style="transform-origin: 35% 138%;
+    width: 90px;
+    transform: rotate(-90deg);">Graphs</a>
+                                                <a class="nav-link text-success" id="v-pills-profile-tab"
+                                                   data-toggle="pill"
+                                                   href="#v-pills-profile" role="tab"
+                                                   aria-controls="v-pills-profile"
+                                                   aria-selected="false" style="    width: 76px;
+    transform-origin: 63% 180%;
+    transform: rotate(-90deg);">Table</a>
+                                            </div>
+
+                                            <div class="col">
+                                                <div class="tab-content" id="v-pills-tabContent">
+                                                    <div class="tab-pane fade show active" id="v-pills-home"
+                                                         role="tabpanel"
+                                                         aria-labelledby="v-pills-home-tab">
+                                                        <div id="prev"></div>
+                                                        <div id="avert"></div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                                         aria-labelledby="v-pills-profile-tab">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel"
+                                         aria-labelledby="nav-profile-tab"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+
+<script>
+    $('#setup-btn').on('click', function (e) {
+        e.preventDefault();
+        $(this).parent().addClass("active");
+        $("#explore-btn").parent().removeClass("active");
+        $("#setup").addClass("active")
+        $("#setup").addClass("show")
+        $("#explore").removeClass("active")
+        $("#explore").removeClass("show")
+    })
+
+
+    var data = [
+        {
+            x: ["ITN"],
+            y: [20],
+            type: "bar",
+            name: "Pyrethoid ITN",
+            marker: {
+                color: "blue",
+                opacity: 0.5,
+            },
+            error_y: {
+                type: "data",
+                array: [1],
+                arrayminus: [6],
+                visible: true,
+                thickness: 1.5,
+                width: 0,
+                opacity: 1
+            }
+        },
+        {
+            x: ["PBO"],
+            y: [20],
+            type: "bar",
+            name: "Switch to Pyrethoid-PBO ITN",
+            marker: {
+                color: "aquamarine",
+                opacity: 0.5,
+            },
+            error_y: {
+                type: "data",
+                array: [2],
+                arrayminus: [5],
+                visible: true,
+                thickness: 1.5,
+                width: 0,
+                opacity: 1
+            }
+        },
+        {
+            x: ["IRS"],
+            y: [159],
+            name: "Only IRS",
+            type: "bar",
+            marker: {
+                color: "purple",
+                opacity: 0.5,
+            },
+            error_y: {
+                type: "data",
+                array: [3],
+                arrayminus: [25],
+                visible: true,
+                thickness: 1.5,
+                width: 0,
+                opacity: 1
+            }
+        },
+        {
+            x: ["IRS + ITN"],
+            y: [160, 161],
+            name: "Add IRS to Pyrethoid ITN",
+            type: "bar",
+            marker: {
+                color: "darkred",
+                opacity: 0.5,
+            },
+            error_y: {
+                type: "data",
+                array: [4],
+                arrayminus: [19],
+                visible: true,
+                thickness: 1.5,
+                width: 0,
+                opacity: 1
+            }
+        },
+        {
+            x: ["IRS + PBO"],
+            y: [161],
+            name: "Add IRS to Pyrethoid-PBO ITN",
+            type: "bar",
+            marker: {
+                color: "orange",
+                opacity: 0.5
+            },
+            error_y: {
+                type: "data",
+                array: [3],
+                arrayminus: [20],
+                visible: true,
+                thickness: 1.5,
+                width: 0,
+                opacity: 1
+            }
+        }
+    ];
+    var layout = {
+        useResizeHandler: true,
+        autosize: true,
+        title: "Clinical cases averted per 1,000 people per year",
+        yaxis: {
+            showline: true,
+            range: [0, 640],
+            autorange: false
+        },
+        showlegend: true
+    };
+
+
+    var data2 = [
+        {
+            x: [0, 1, 2, 3, 4],
+            y: [40, 40, 42, 45, 47],
+            name: "No intervention",
+            type: "lines",
+            marker: {color: "grey"}
+        },
+        {
+            x: [0, 1, 2, 3, 4],
+            y: [40, 36, 36, 37, 38],
+            name: "Pyrethoid ITN",
+            type: "lines",
+            marker: {color: "blue"}
+        },
+        {
+            x: [0, 1, 2, 3, 4],
+            y: [40, 37, 36, 35, 34],
+            name: "Switch to Pyrethoid-PBO ITN",
+            type: "lines",
+            marker: {color: "aquamarine"}
+        },
+        {
+            x: [0, 1, 2, 3, 4],
+            y: [40, 41, 41, 40, 39],
+            name: "Only IRS",
+            type: "lines",
+            marker: {color: "purple"}
+        },
+        {
+            x: [0, 1, 2, 3, 4],
+            y: [40, 40, 42, 45, 47],
+            name: "Add IRS to Pyrethoid ITN",
+            type: "lines",
+            marker: {color: "darkred"}
+        },
+        {
+            x: [0, 1, 2, 3, 4],
+            y: [40, 35, 34, 33, 32],
+            name: "Add IRS to Pyrethoid-PBO ITN",
+            type: "lines",
+            marker: {color: "orange"}
+        },
+        {
+            x: [1, 1],
+            y: [0, 100],
+            line: {
+                dash: 'dot',
+                width: 2,
+                color: "grey"
+            },
+            name: "",
+            showlegend: false,
+            hoverinfo: "none"
+        }
+    ]
+    var layout2 = {
+        useResizeHandler: true,
+        autosize: true,
+        title: "Projected prevalence in under 5 year olds",
+        xaxis: {
+            title: 'years',
+            showline: true,
+            range: [0, 4],
+            tickvals: [0, 1, 2, 3, 4],
+            autorange: false
+        },
+        yaxis: {
+            title: 'prevalence (%)',
+            showline: true,
+            range: [0, 100],
+            autorange: false
+        }
+    }
+
+    $('#explore-btn').on('click', function (e) {
+        e.preventDefault();
+        $("#setup-btn").parent().removeClass("active")
+        $(this).parent().addClass("active");
+        $("#explore").addClass("active")
+        $("#explore").addClass("show")
+        $("#setup").removeClass("active")
+        $("#setup").removeClass("show")
+        Plotly.newPlot(document.getElementById('avert'), data, layout);
+
+        Plotly.newPlot(document.getElementById('prev'), data2, layout2);
+
+    })
+
+
+</script>
+</body>
+</html>
